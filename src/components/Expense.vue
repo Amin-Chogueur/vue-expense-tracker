@@ -2,7 +2,10 @@
 import { ref } from "vue";
 import { defineProps } from "vue";
 import { useExpenseStore } from "../stores/expenceStore";
+import { useToast } from "vue-toastification";
+// state
 
+const toast = useToast();
 const expenseStore = useExpenseStore();
 
 defineProps({
@@ -17,6 +20,7 @@ function handleDeleteExpense(id) {
   );
   if (confirm) {
     expenseStore.deleteExpense(id);
+    toast.success("transaction deleted successfully");
   }
 }
 

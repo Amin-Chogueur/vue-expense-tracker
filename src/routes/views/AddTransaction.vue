@@ -2,8 +2,10 @@
 import { reactive } from "vue";
 import { useExpenseStore } from "../../stores/expenceStore";
 import router from "../index";
+import { useToast } from "vue-toastification";
 // state
 
+const toast = useToast();
 const expenseStore = useExpenseStore();
 
 const transactionData = reactive({
@@ -20,7 +22,7 @@ function addTransaction() {
     transactionData.type === "" ||
     transactionData.amount === ""
   ) {
-    alert("Please fill out the necessary fields marked with *");
+    toast.error("Please fill out the necessary fields marked with *");
     return;
   }
   const newTransaction = {
@@ -31,6 +33,7 @@ function addTransaction() {
     amount: Number(transactionData.amount),
   };
   expenseStore.addTransaction(newTransaction);
+  toast.success("transaction added successfully");
   router.push("/");
   transactionData.description = "";
   transactionData.title = "";
